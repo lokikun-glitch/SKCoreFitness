@@ -64,17 +64,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const formWrap = document.querySelector('.form-fields');
   const formSuccess = document.querySelector('.form-success');
 
+  const WHATSAPP_NUMBER = '919595605530';
+
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
+
+    const fname = form.fname.value.trim();
+    const lname = form.lname.value.trim();
+    const phone = form.phone.value.trim();
+    const email = form.email.value.trim();
+    const goalField = form.goal;
+    const goal = goalField.value ? goalField.options[goalField.selectedIndex].text : '';
+    const message = form.message.value.trim();
+
+    const lines = [
+      'Hi! I want to book a FREE TRIAL at SK CORE FITNESS.',
+      '',
+      `Name: ${fname} ${lname}`,
+      `Phone: ${phone}`,
+    ];
+    if (email) lines.push(`Email: ${email}`);
+    if (goal) lines.push(`Goal: ${goal}`);
+    if (message) lines.push(`Message: ${message}`);
+
+    const text = encodeURIComponent(lines.join('\n'));
+
+    // Open WhatsApp with the form details pre-filled, ready to send
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
+
     const btn = form.querySelector('.form-submit');
-    btn.textContent = 'Sending...';
+    btn.textContent = 'Opening WhatsApp...';
     btn.disabled = true;
 
-    // Simulate submission (replace with real fetch to backend)
-    setTimeout(() => {
-      formWrap.style.display = 'none';
-      formSuccess.style.display = 'block';
-    }, 1200);
+    formWrap.style.display = 'none';
+    formSuccess.style.display = 'block';
   });
 
   /* ── SMOOTH SCROLL FOR NAV LINKS ── */
